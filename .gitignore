@@ -1,0 +1,5 @@
+data/
+europarl-test.zip
+europarl.tgz
+__pycache__/
+.ipynb_checkpoints/
