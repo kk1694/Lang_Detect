@@ -55,8 +55,7 @@ def txt2list(txt, min_chars = 3):
     
     '''Preprocess text, and converts it to a list of sentences.'''
     
-    res = preprocess(txt)
-    res = res.strip().split('<eos>')
+    res = txt.strip().split('<eos>')
     res = list(map(lambda x: x.strip(), res))
     
     # We also want to remove items consting only of whitespace,
