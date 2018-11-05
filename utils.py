@@ -84,7 +84,7 @@ def numericalize(X, word2idx, maxlen = 32, pad = '<pad>'):
     m = X.shape[0]
     pad_idx = word2idx[pad]
     res = np.ones((m, maxlen)) * pad_idx  # Empty array of padding
-    for row in tqdm(range(m), leave = False):
+    for row in tqdm(range(m), position = 0, leave = False):
         temp = np.array([word2idx[w] for w in X[row].split()])
         n = min(len(temp), maxlen)  # Truncate sentence at maxlen words.
         res[row, :n] = temp[:n]
@@ -110,3 +110,19 @@ def exp_smooth(x, beta, bias_correct = True):
         assert corr.shape == res.shape
         res = res / corr
     return res
+
+def conv2np(tens):
+    if torch.is_tensor(tens):
+        if tens.is_cuda:
+            return tens.detach().cpu().numpy()
+        else:
+            return tens.detach().numpy()
+    else:
+        return tens
+
+def accuracy(pred, y):
+    pred = conv2np(pred)
+    y = conv2np(y)
+    m = y.shape[0]
+    assert pred.shape == (m,)
+    return np.sum(pred == y) / m
