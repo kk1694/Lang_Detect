@@ -13,9 +13,9 @@ The table below lists the model results based on sample size.
 
 | Dataset           | Model              | Accuracy           | Training Time      | Inference Time     | Vocabulary size    | Link              |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| Full Dataset  | Word Level      | 99.97%             | 136 min      |           | 403619         | [here]() |
-| 10% Sample    | Word Level      | XXXX               | XXX min      |           | XXX            | [here]() |
-| 1% Sample     | Word Level      | XXXX               | XXX min      |           | XXX            | [here]() |
+| Full Dataset  | Word Level      | 99.96%             | 130 min      | 1.22 secs | 403619         | [here]() |
+| 10% Sample    | Word Level      | 99.90%             | 12  min      | 1.22 secs | 433309         | [here]() |
+| 1% Sample     | Word Level      | 98.79%              | 1   min      | 1.17 secs | 151746         | [here]() |
 | 1% Sample     | Character Level | XXXX               | XXX min      |           | XXX            | [here]() |
 
 Training time involves all preprocessing and model fitting (but not download time). Inference time involves predicting the ~20k sentences of the test set. The runs are done on a google cloud virtual machine with P100 GPU (the notebook contains full specification).

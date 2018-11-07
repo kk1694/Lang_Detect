@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-def preprocess(txt):
+def preprocess(txt, word_level = True):
     
     '''Generic preprocessing: remove uninformative text, replace numbers,
     create end of sentence tokan, replace punctuation, collapse white space.'''
@@ -17,8 +17,9 @@ def preprocess(txt):
     txt = re.sub('\<.*?\>', '', txt, count = 0)
 
     # Replace numbers with special character
-    txt = re.sub('[0-9]+', ' <num> ', txt, count = 0)
-    txt = txt.replace(' <num> .', ' <num> ')
+    if word_level:
+        txt = re.sub('[0-9]+', ' <num> ', txt, count = 0)
+        txt = txt.replace(' <num> .', ' <num> ')
 
     # Create special character for sentence end
     txt = txt.replace('.', ' <eos> ')
@@ -29,8 +30,9 @@ def preprocess(txt):
     txt = re.sub('( <eos> )+', ' <eos> ', txt)
 
     # Replace all punctuation with special character
-    txt = txt.translate(str.maketrans(punct, '_'*len(punct)))
-    txt = txt.replace('_', ' <punct> ')
+    if word_level:
+        txt = txt.translate(str.maketrans(punct, '_'*len(punct)))
+        txt = txt.replace('_', ' <punct> ')
 
     # Collapse neighboring spaces
     txt = re.sub('[ ]+', ' ', txt, count = 0)
@@ -81,7 +83,7 @@ def concat_random_sent(txt, p = 0.02):
     
     return res
 
-def numericalize(X, word2idx, maxlen = 32, pad = '<pad>'):
+def numericalize(X, word2idx, maxlen = 32, word_level = True, pad = '<pad>'):
     
     '''Converts a (m,) array of sentences into a (m, maxlen) array of word indices.'''    
     
@@ -90,19 +92,26 @@ def numericalize(X, word2idx, maxlen = 32, pad = '<pad>'):
     res = np.ones((m, maxlen)) * pad_idx  # Array with only padding
     
     for row in tqdm(range(m), position = 0, leave = False):
-        temp = np.array([word2idx[w] for w in X[row].split()])
+        if word_level:
+            temp = np.array([word2idx[w] for w in X[row].split()])
+        else:
+            temp = np.array([word2idx[w] for w in list(X[row])])
         n = min(len(temp), maxlen)  # Truncate sentence at maxlen words.
         res[row, :n] = temp[:n]
         
     return res.astype(np.int32)
 
-def de_numericalize(X, idx2word):
+def de_numericalize(X, idx2word, word_level = True):
     
     '''Converts an array of word indices into a list of sentences.'''
     
     res = []
     for row in range(X.shape[0]):
-        res.append(' '.join([idx2word[i] for i in X[row][X[row] != 1]]))
+        if word_level:
+            pad = ' '
+        else:
+            pad = ''  # Character level model already contains space
+        res.append(pad.join([idx2word[i] for i in X[row][X[row] != 1]]))
     return res
 
 def exp_smooth(x, beta, bias_correct = True):
