@@ -31,8 +31,8 @@ The [main notebook](https://github.com/kk1694/Lang_Detect/blob/master/Lang_Class
 ## Description of Files
 
 - [Lang_Class.ipynb](https://github.com/kk1694/Lang_Detect/blob/master/Lang_Class.ipynb): The main model, trained on the whole dataset. Contains explanations.
-- [utils.py](https://github.com/kk1694/Lang_Detect/blob/master/Download_Data.ipynb): Contains a list of (relatively uninteresting) helper functions.
-- [Download_Data.ipynb](): Downloads data, and puts in the appropriate directories.
+- [utils.py](https://github.com/kk1694/Lang_Detect/blob/master/utils.py): Contains a list of (relatively uninteresting) helper functions.
+- [Download_Data.ipynb](https://github.com/kk1694/Lang_Detect/blob/master/Download_Data.ipynb): Downloads data, and puts in the appropriate directories.
 - [Create_Smaller_Training_Set.ipynb](https://github.com/kk1694/Lang_Detect/blob/master/Create_Smaller_Training_Set.ipynb): Copies a random subset of the data to a new directory (for faster model building).
 - [Lang_Class_10pct.ipynb](https://github.com/kk1694/Lang_Detect/blob/master/Lang_Class_10pct.ipynb): Trains the main model on 10% of the data. 
 - [Lang_Class_10pct.ipynb](https://github.com/kk1694/Lang_Detect/blob/master/Lang_Class_1pct.ipynb): Trains the main model on 1% of the data.
